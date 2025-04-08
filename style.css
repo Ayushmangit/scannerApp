@@ -32,6 +32,15 @@ button {
   transition: background-color 0.2s ease-in-out;
 }
 
+#scanner-container video {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
 button:disabled {
   background-color: #ccc;
   cursor: not-allowed;
@@ -49,6 +58,7 @@ button:hover:enabled {
   border: 2px dashed #ccc;
   border-radius: 8px;
   background-color: #000;
+  overflow: hidden;
 }
 
 .result {
