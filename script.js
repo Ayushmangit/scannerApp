@@ -58,14 +58,19 @@ document.addEventListener("DOMContentLoaded", () => {
         inputStream: {
           name: "Live",
           type: "LiveStream",
-          target: document.getElementById("scanner-container"),
+          target: document.querySelector("#scanner-container"),
           constraints: {
             facingMode: "environment",
           },
         },
+        locator: {
+          patchSize: "medium",
+          halfSample: true,
+        },
         decoder: {
           readers: ["ean_reader", "upc_reader", "code_128_reader"],
         },
+        locate: true,
       },
       function (err) {
         if (err) {
@@ -145,3 +150,7 @@ async function searchProductByName(name) {
     resultDisplay.textContent = `❌ Error searching product.`;
   }
 }
+
+Quagga.onProcessed(function (result) {
+  console.log("processed frame", result);
+});
