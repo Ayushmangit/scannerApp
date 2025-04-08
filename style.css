@@ -59,6 +59,7 @@ button:hover:enabled {
   border-radius: 8px;
   background-color: #000;
   overflow: hidden;
+  position: relative;
 }
 
 .result {
