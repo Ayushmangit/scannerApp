@@ -88,6 +88,9 @@ document.addEventListener("DOMContentLoaded", () => {
     Quagga.stop();
     startBtn.disabled = false;
     stopBtn.disabled = true;
+
+     const scannerContainer = document.getElementById("scanner-container");
+    scannerContainer.innerHTML = ""; // Remove video element
   });
 
   // Reuse fetchProduct after scan
