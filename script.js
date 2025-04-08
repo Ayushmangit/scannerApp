@@ -16,7 +16,9 @@ async function fetchProduct(barcode) {
       const productName = product.product_name || "Unnamed Product";
       const productImage = product.image_front_small_url || "";
       const ingredients =
-        product.ingredients_text || "Ingredients not available.";
+        product.ingredients_en ||
+        product.ingredients_text ||
+        "Ingredients not available.";
 
       searchType.textContent = "Barcode Scan:";
       resultDisplay.innerHTML = `
@@ -26,7 +28,7 @@ async function fetchProduct(barcode) {
             ? `<img src="${productImage}" alt="${productName}" style="max-width: 150px; margin-top: 10px; border-radius: 8px;" />`
             : ""
         }
-        
+
         <p><strong>🧪 Ingredients:</strong> ${ingredients}</p>
       `;
     } else {
@@ -37,6 +39,35 @@ async function fetchProduct(barcode) {
     resultDisplay.textContent = `❌ Error fetching product data.`;
   }
 }
+// async function fetchProduct(barcode) {
+//   try {
+//     const response = await fetch("products.json");
+//     const products = await response.json();
+//     const product = products.find((p) => p.barcode === barcode);
+
+//     if (product) {
+//       const productName = product.name || "Unnamed Product";
+//       const productImage = product.image || "";
+//       const ingredients = product.ingredients || "Ingredients not available.";
+
+//       searchType.textContent = "Barcode Scan:";
+//       resultDisplay.innerHTML = `
+//         <p><strong>✅ Product:</strong> ${productName}</p>
+//         ${
+//           productImage
+//             ? `<img src="${productImage}" alt="${productName}" style="max-width: 150px; margin-top: 10px; border-radius: 8px;" />`
+//             : ""
+//         }
+//         <p><strong>🧪 Ingredients:</strong> ${ingredients}</p>
+//       `;
+//     } else {
+//       resultDisplay.textContent = `❌ Product not found in local database.`;
+//     }
+//   } catch (err) {
+//     console.error("Fetch error:", err);
+//     resultDisplay.textContent = `❌ Error fetching product data.`;
+//   }
+// }
 
 // Manual barcode submission
 submitBtn.addEventListener("click", async () => {
@@ -68,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
           halfSample: true,
         },
         decoder: {
-          readers: ["ean_reader", "ean_8_reader", "upc_reader", "code_128_reader", "code_39_reader"],
+          readers: ["ean_reader", "upc_reader", "code_128_reader"],
         },
         locate: true,
       },
@@ -88,9 +119,6 @@ document.addEventListener("DOMContentLoaded", () => {
     Quagga.stop();
     startBtn.disabled = false;
     stopBtn.disabled = true;
-
-     const scannerContainer = document.getElementById("scanner-container");
-    scannerContainer.innerHTML = ""; // Remove video element
   });
 
   // Reuse fetchProduct after scan
