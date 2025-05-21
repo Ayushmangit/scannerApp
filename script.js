@@ -51,7 +51,6 @@ async function fetchProduct(barcode) {
       const table = document.createElement("table");
       table.style.width = "100%";
       table.style.maxWidth = "100%";
-      table.style.backgroundColor = "red";
       table.style.borderCollapse = "collapse";
       table.style.marginTop = "10px";
       table.style.border = "1px solid #ccc";
