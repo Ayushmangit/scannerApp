@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Barcode Scanner</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+  <div class="container">
+
+    <h1>📦 Scan Product Barcode</h1>
+
+    <button id="start-scan">▶️ Start Scanning</button>
+    <button id="stop-scan" disabled>⏹️ Stop Scanning</button>
+
+    <div id="scanner-container"></div>
+
+    <div class="manual-entry">
+      <h3>Or enter barcode manually:</h3>
+      <input type="text" id="manual-barcode" placeholder="Enter barcode" />
+      <button id="submit-barcode">🔍 Search</button>
+      <input type="text" id="product-name" placeholder="Enter product name" />
+      <button id="search-name">🔍 Search</button>
+    </div>
+    <div class="result">
+      <h2 id="searchType"></h2>
+      <p id="barcode-result">No barcode detected yet.</p>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/quagga/0.12.1/quagga.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>
