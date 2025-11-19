@@ -3,26 +3,25 @@ const submitBtn = document.getElementById("submit-barcode");
 const resultDisplay = document.getElementById("barcode-result");
 const searchType = document.getElementById("searchType");
 
-// Reusable async function to fetch product details
 async function fetchProduct(barcode) {
-  const url = `https://world.openfoodfacts.org/api/v2/product/${barcode}.json`;
+  const url = `http://localhost:3333/${barcode}`
 
   try {
     const response = await fetch(url);
     const data = await response.json();
-    console.log(data);
-
+    console.log(data)
+    console.log(data.fat100G)
+    console.log(data.saturatedFat100G)
     resultDisplay.innerHTML = "";
 
-    if (data.status === 1 && data.product) {
-      const product = data.product;
-      const productName = product.product_name || "Unnamed Product";
+    if (data) {
+      const product = data
+      const productName = product.productName || "Unnamed Product";
       const productImage = product.image_front_small_url || "";
       const ingredients =
-        product.ingredients_text_en ||
+        product.ingredients ||
         product.ingredients_text ||
         "Ingredients not available.";
-      const nutriments = product.nutriments || {};
 
       searchType.textContent = "Barcode Scan:";
 
@@ -66,13 +65,13 @@ async function fetchProduct(barcode) {
       const tbody = document.createElement("tbody");
 
       const nutritionData = [
-        ["Energy", nutriments["energy-kcal_100g"], "kcal"],
-        ["Fat", nutriments.fat_100g, "g"],
-        ["Saturated Fat", nutriments["saturated-fat_100g"], "g"],
-        ["Carbohydrates", nutriments.carbohydrates_100g, "g"],
-        ["Sugars", nutriments.sugars_100g, "g"],
-        ["Proteins", nutriments.proteins_100g, "g"],
-        ["Salt", nutriments.salt_100g, "g"],
+        ["Energy", data.energyKcal100G, "kcal"],
+        ["Fat", data.fat100G, "g"],
+        ["Saturated Fat", data.saturatedFat100G, "g"],
+        ["Carbohydrates", data.carbohydrates100G, "g"],
+        ["Sugars", data.sugars100G, "g"],
+        ["Proteins", data.proteins100G, "g"],
+        ["Salt", data.salt100G, "g"],
       ];
 
       nutritionData.forEach(([label, value, unit]) => {
