@@ -4,7 +4,7 @@ const resultDisplay = document.getElementById("barcode-result");
 const searchType = document.getElementById("searchType");
 
 async function fetchProduct(barcode) {
-  const url = `http://localhost:3333/${barcode}`
+  const url = `https://scannerbackend-ybj7.onrender.com/${barcode}`
 
   try {
     const response = await fetch(url);
@@ -17,10 +17,10 @@ async function fetchProduct(barcode) {
     if (data) {
       const product = data
       const productName = product.productName || "Unnamed Product";
-      const productImage = product.image_front_small_url || "";
+      const productImage = product.imageUrl || "";
       const ingredients =
         product.ingredients ||
-        product.ingredients_text ||
+        product.ingredientsText ||
         "Ingredients not available.";
 
       searchType.textContent = "Barcode Scan:";
