@@ -4,7 +4,7 @@ const resultDisplay = document.getElementById("barcode-result");
 const searchType = document.getElementById("searchType");
 
 async function fetchProduct(barcode) {
-  const url = `https://scannerbackend-ybj7.onrender.com/${barcode}`
+  const url = `http://localhost:3333/api/products/${barcode}`
 
   try {
     const response = await fetch(url);
@@ -116,6 +116,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const startBtn = document.getElementById("start-scan");
   const stopBtn = document.getElementById("stop-scan");
 
+
   startBtn.addEventListener("click", () => {
     Quagga.init(
       {
@@ -125,6 +126,8 @@ document.addEventListener("DOMContentLoaded", () => {
           target: document.querySelector("#scanner-container"),
           constraints: {
             facingMode: "environment",
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
           },
         },
         locator: {
@@ -132,7 +135,7 @@ document.addEventListener("DOMContentLoaded", () => {
           halfSample: true,
         },
         decoder: {
-          readers: ["ean_reader", "upc_reader", "code_128_reader"],
+          readers: ["ean_reader", "upc_reader"],
         },
         locate: true,
       },
@@ -142,6 +145,15 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
         Quagga.start();
+
+        // Fix Chrome getImageData performance issue
+        Quagga.onProcessed(() => {
+          const ctx = Quagga.canvas?.ctx?.overlay;
+          if (ctx) {
+            ctx.canvas.getContext("2d", { willReadFrequently: true });
+          }
+        });
+
         startBtn.disabled = true;
         stopBtn.disabled = false;
       }
@@ -177,6 +189,8 @@ nameBtn.addEventListener("click", () => {
     alert("Please enter a product name.");
   }
 });
+
+console.log('hiii')
 
 async function searchProductByName(name) {
   const query = encodeURIComponent(name);
@@ -285,6 +299,4 @@ async function searchProductByName(name) {
   }
 }
 
-Quagga.onProcessed(function(result) {
-  console.log("processed frame", result);
-});
+
